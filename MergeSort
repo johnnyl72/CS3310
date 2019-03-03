@@ -1,0 +1,63 @@
+package Project1;
+
+import java.util.*;
+import java.io.*;
+import java.lang.Math;
+
+public class MergeSort {
+
+	public static void main(String[] args) {
+		
+		Random rand = new Random();
+		
+		System.out.print("How many 2^n entries would you like (0 < n <= 16)?: ");
+		Scanner kb = new Scanner(System.in);
+		int input = kb.nextInt();
+		
+		int n = (int) Math.pow(2, input);
+		int array[] = new int[n];
+		System.out.println("There are " +n+ " entries in the array.");
+		kb.close();
+		
+		//addding random numbers into an array
+		for(int i = 0; i < n; i++) {
+			array[i] = rand.nextInt(n) + 1; 
+			
+		}
+		System.out.println(Arrays.toString(array));
+		
+		
+	}//end main
+	
+	public static void mergeSort(int n, int S[]) {
+		if( n > 0) {
+			int uLen = (int) Math.floor(n/2);
+			int vLen = n - uLen;
+			int U[] = new int[uLen];
+			int V[] = new int[vLen];
+			//tbd
+		}
+	}
+	
+	public static void merge(int uLen, int vLen, int V[], int U[], int S[]) {
+
+		int i = 0, j = 0, k = 0;
+		while(i < uLen && j < vLen) {
+			if(U[i] < V[j]) {
+				S[k] = U[i];
+				i++;
+			}
+			else {
+				S[k] = V[j];
+				j++;
+				k++;
+			}
+		if(i > uLen) {
+			//tbd
+		}
+		else
+			//tbd
+		}//end of while
+	}//end of merge 
+
+}
