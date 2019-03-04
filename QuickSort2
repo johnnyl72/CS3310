@@ -1,0 +1,96 @@
+package Project1;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Scanner;
+
+public class QuickSort2 {
+	//Made "array" a class variable to follow along the pseudo of have not having it as a parameter.
+	private static int[] array;
+	private static int x =1;
+	public static void main(String args[]) {
+		
+		System.out.print("How many 2^n entries would you like (0 < n <= 16)?: ");
+		Scanner kb = new Scanner(System.in);
+		int input = kb.nextInt();
+		
+		int n = (int) Math.pow(2, input);
+		array = new int[n];
+		System.out.println("There are " + n + " entries in the array.");
+		kb.close();
+		
+		
+		//generate a list of 2^n unique inputs and shuffle
+		ArrayList<Integer> list = new ArrayList<Integer>();
+        for (int i=0; i<n; i++) 
+            list.add(new Integer(i+1));
+        Collections.shuffle(list);
+		
+		//adding unique random numbers into the array
+		for(int i = 0; i < n; i++) 
+			array[i] = list.get(i); 
+		
+		System.out.println("Unsorted: " + Arrays.toString(array));
+		quickSort(0, array.length);
+		System.out.println("Sorted: " + Arrays.toString(array));
+		
+	}
+	public static void quickSort(int low, int high) {
+
+		int pivotpoint = 0;
+		
+		if(high > low) {
+			
+			
+			pivotpoint = partition(low, high, pivotpoint);
+			quickSort(low, pivotpoint);
+			quickSort(pivotpoint + 1, high);
+			
+		}
+	}
+	public static void insertionSort() {
+		System.out.println("Insertion boys");
+		//insertion sort
+		for(int i = 1; i < array.length; i++) {
+			int target = array[i];
+			int j = i - 1;
+			while( j >= 0 && target < array[j]) {
+				array[j + 1] = array[j];
+				j = j - 1;	
+			}
+			array [j + 1] = target;
+
+			
+		}
+	}
+	public static int partition(int low, int high, int pivotpoint) {
+		 System.out.println("Partition boys");
+		 int i, j, pivotitem;
+		 
+		 pivotitem = array[low];  // first item for pivot
+	     j = low;				  // j tracks where to place pivot
+	  
+	        for (i = low; i < high; i++) { 	 
+	            if (array[i] < pivotitem) 
+	            { 		
+	            	
+	            	j++;
+	            	//exchange S[i] and S[j]
+	            	int temp = array[i];
+	        		array[i] = array[j];
+	        		array[j] = temp;	
+	        	
+	            }
+	        } 	
+	        
+	        pivotpoint = j;
+	      //exchange S[low] and S[pivotpoint]
+	        int temp = array[low];
+			array[low] = array[j];
+			array[j] = temp;	
+	  
+	        return pivotpoint; 
+	}
+
+}
