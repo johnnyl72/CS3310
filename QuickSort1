@@ -30,7 +30,7 @@ public class QuickSort1 {
 		for(int i = 0; i < n; i++) 
 			array[i] = list.get(i); 
 		
-		//System.out.println("Unsorted: " + Arrays.toString(array));
+		System.out.println("Unsorted: " + Arrays.toString(array));
 		quickSort(0, array.length);
 		System.out.println("Sorted: " + Arrays.toString(array));
 		
@@ -49,25 +49,27 @@ public class QuickSort1 {
 		 
 		 int i, j, pivotitem;
 		 
-		 pivotitem = array[low];  //first item for pivot
-	     j = low;
+		 pivotitem = array[low];  // first item for pivot
+	     j = low;				  // j tracks where to place pivot
 	    
 	        for (i = low; i < high; i++) { 	 
 	            if (array[i] < pivotitem) 
 	            { 		    
 	            	j++;
-	            	swap(i,j);	            
+	            
+	            	int temp = array[i];
+	        		array[i] = array[j];
+	        		array[j] = temp;	
 	            }
 	        } 	
 	        
 	        pivotpoint = j;
-	        swap(low, j);
+	        
+	        int temp = array[low];
+			array[low] = array[j];
+			array[j] = temp;	
 	  
 	        return pivotpoint; 
 	}
-	public static void swap(int a, int b) {
-		int temp = array[a];
-		array[a] = array[b];
-		array[b] = temp;	
-	}
+
 }
