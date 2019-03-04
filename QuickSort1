@@ -51,20 +51,22 @@ public class QuickSort1 {
 		 
 		 pivotitem = array[low];  // first item for pivot
 	     j = low;				  // j tracks where to place pivot
-	    
+	  
 	        for (i = low; i < high; i++) { 	 
 	            if (array[i] < pivotitem) 
-	            { 		    
+	            { 		
+	            	
 	            	j++;
-	            
+	            	//exchange S[i] and S[j]
 	            	int temp = array[i];
 	        		array[i] = array[j];
 	        		array[j] = temp;	
+	        	
 	            }
 	        } 	
 	        
 	        pivotpoint = j;
-	        
+	      //exchange S[low] and S[pivotpoint]
 	        int temp = array[low];
 			array[low] = array[j];
 			array[j] = temp;	
