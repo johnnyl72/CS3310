@@ -24,40 +24,54 @@ public class MergeSort {
 			array[i] = rand.nextInt(n) + 1; 
 			
 		}
-		System.out.println(Arrays.toString(array));
-		
+		System.out.println("Unsorted: " + Arrays.toString(array));
+		mergeSort(n,array);
+		System.out.println("Sorted: " + Arrays.toString(array));
 		
 	}//end main
 	
 	public static void mergeSort(int n, int S[]) {
-		if( n > 0) {
+		if( n > 1) {
 			int uLen = (int) Math.floor(n/2);
 			int vLen = n - uLen;
 			int U[] = new int[uLen];
 			int V[] = new int[vLen];
-			//tbd
+			for(int i = 0; i < uLen; i++) {
+				U[i] = S[i];
+			}
+			for(int i = 0 ; i < vLen; i++) {
+				V[i] = S[uLen + i];
+			}
+			
+			mergeSort(uLen, U);
+			mergeSort(vLen, V);
+			merge(uLen, vLen, U, V, S);
+	
 		}
 	}
 	
-	public static void merge(int uLen, int vLen, int V[], int U[], int S[]) {
+	public static void merge(int uLen, int vLen, int U[], int V[], int S[]) {
 
 		int i = 0, j = 0, k = 0;
 		while(i < uLen && j < vLen) {
 			if(U[i] < V[j]) {
-				S[k] = U[i];
+				S[k++] = U[i];
 				i++;
 			}
 			else {
-				S[k] = V[j];
-				j++;
-				k++;
+				S[k++] = V[j];
+				j++;	
 			}
-		if(i > uLen) {
-			//tbd
-		}
-		else
-			//tbd
 		}//end of while
+		
+		if(i >= uLen) {
+			for(int a = j; a < vLen; a++) 
+				S[k++] = V[j];					
+		}
+		else {
+			for(int a = i; a < uLen; a++) 
+				S[k++] = U[i];
+		}
 	}//end of merge 
 
 }
