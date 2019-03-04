@@ -1,5 +1,3 @@
-package Project1;
-
 import java.util.*;
 import java.lang.Math;
 
@@ -13,21 +11,19 @@ public class MergeSort {
 		
 		int n = (int) Math.pow(2, input);
 		int array[] = new int[n];
-		System.out.println("There are " +n+ " entries in the array.");
+		System.out.println("There are " + n + " entries in the array.");
 		kb.close();
 		
 		
+		//generate a list of 2^n unique inputs and shuffle
 		ArrayList<Integer> list = new ArrayList<Integer>();
-        for (int i=0; i<n; i++) {
+        for (int i=0; i<n; i++) 
             list.add(new Integer(i+1));
-        }
         Collections.shuffle(list);
 		
 		//adding unique random numbers into the array
-		for(int i = 0; i < n; i++) {
+		for(int i = 0; i < n; i++) 
 			array[i] = list.get(i); 
-			
-		}
 		
 		System.out.println("Unsorted: " + Arrays.toString(array));
 		mergeSort(n, array);
@@ -54,15 +50,13 @@ public class MergeSort {
 			mergeSort(uLen, U);
 			mergeSort(vLen, V);
 			merge(uLen, vLen, U, V, S);
-		
 		}
-		
-	}
+	}//end mergeSort
 	
 	public static void merge(int uLen, int vLen, int U[], int V[], int S[]) {
 
 		int i = 0, j = 0, k = 0;
-		while((i < uLen) && (j < vLen)) {
+		while((i < uLen) && (j < vLen)) { 
 			if(U[i] <= V[j]) {
 				S[k] = U[i];
 				i++;
@@ -73,11 +67,11 @@ public class MergeSort {
 			}
 			k++;
 			
-		}//end of while
+		}//end while
 
 		System.arraycopy(U, i, S, k, uLen-i);
 		System.arraycopy(V, j, S, k, vLen-j);
 	
-	}//end of merge 
+	}//end merge 
 
 }
