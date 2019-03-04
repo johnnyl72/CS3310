@@ -1,7 +1,6 @@
 package Project1;
 
 import java.util.*;
-import java.io.*;
 import java.lang.Math;
 
 public class MergeSort {
@@ -31,39 +30,39 @@ public class MergeSort {
 		}
 		
 		System.out.println("Unsorted: " + Arrays.toString(array));
-		mergeSort(array);
+		mergeSort(n, array);
 		System.out.println("Sorted: " + Arrays.toString(array));
 		
 	}//end main
 	
-	public static int[] mergeSort(int S[]) {
-		//base case
-		if(S.length <= 1) {
-			return S;
-		}
-			int uLen = (int) Math.floor(S.length/2);
-			int vLen = S.length - uLen;
+	public static void mergeSort(int n, int S[]) {
+		if( n > 1) {
+			int uLen = (int) Math.floor(n/2);
+			int vLen = n - uLen;
 			int U[] = new int[uLen];
 			int V[] = new int[vLen];
+			//System.out.println("S is: " +Arrays.toString(S));
 			for(int i = 0; i < uLen; i++) {
 				U[i] = S[i];
 			}
-			System.out.println(Arrays.toString(U));
+			//System.out.println("U is: " +Arrays.toString(U));
 			for(int i = 0 ; i < vLen; i++) {
 				V[i] = S[uLen + i];
 			}
-			System.out.println(Arrays.toString(V));
-			mergeSort(U);
-			mergeSort(V);
-			merge(U, V, S);
+			//System.out.println("V is: " +Arrays.toString(V));
 			
-			return S;	
+			mergeSort(uLen, U);
+			mergeSort(vLen, V);
+			merge(uLen, vLen, U, V, S);
+		
+		}
+		
 	}
 	
-	public static void merge(int U[], int V[], int S[]) {
+	public static void merge(int uLen, int vLen, int U[], int V[], int S[]) {
 
 		int i = 0, j = 0, k = 0;
-		while((i < U.length) && (j < V.length)) {
+		while((i < uLen) && (j < vLen)) {
 			if(U[i] <= V[j]) {
 				S[k] = U[i];
 				i++;
@@ -75,12 +74,10 @@ public class MergeSort {
 			k++;
 			
 		}//end of while
-		
-		System.arraycopy(U, i, S, k, U.length-i);
-		System.arraycopy(V, j, S, k, V.length-j);
-			
 
-		
+		System.arraycopy(U, i, S, k, uLen-i);
+		System.arraycopy(V, j, S, k, vLen-j);
+	
 	}//end of merge 
 
 }
