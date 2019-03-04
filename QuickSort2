@@ -37,35 +37,40 @@ public class QuickSort2 {
 		
 	}
 	public static void quickSort(int low, int high) {
-
+		//System.out.println("QuickSort");
 		int pivotpoint = 0;
-		
+		System.out.println("High:" + high +" Low: " + low);
 		if(high > low) {
 			
-			
+			int size = high - low;
+			if(size <= 16) {
+				insertionSort(low,high);
+			}
+			else {
 			pivotpoint = partition(low, high, pivotpoint);
 			quickSort(low, pivotpoint);
 			quickSort(pivotpoint + 1, high);
+			}
 			
 		}
 	}
-	public static void insertionSort() {
+	public static void insertionSort(int low, int high) {
 		System.out.println("Insertion boys");
+		
 		//insertion sort
-		for(int i = 1; i < array.length; i++) {
+		for(int i = low + 1; i < high; i++) {
 			int target = array[i];
 			int j = i - 1;
-			while( j >= 0 && target < array[j]) {
+			while( j >= low && target < array[j]) {
 				array[j + 1] = array[j];
 				j = j - 1;	
 			}
 			array [j + 1] = target;
-
-			
 		}
+		//System.out.println(Arrays.toString(array));
 	}
 	public static int partition(int low, int high, int pivotpoint) {
-		 System.out.println("Partition boys");
+		System.out.println("Partition");
 		 int i, j, pivotitem;
 		 
 		 pivotitem = array[low];  // first item for pivot
@@ -89,7 +94,7 @@ public class QuickSort2 {
 	        int temp = array[low];
 			array[low] = array[j];
 			array[j] = temp;	
-	  
+	 
 	        return pivotpoint; 
 	}
 
