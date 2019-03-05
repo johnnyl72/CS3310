@@ -8,7 +8,6 @@ import java.util.Scanner;
 public class QuickSort2 {
 	//Made "array" a class variable to follow along the pseudo of have not having it as a parameter.
 	private static int[] array;
-	private static int x =1;
 	public static void main(String args[]) {
 		
 		System.out.print("How many 2^n entries would you like (0 < n <= 16)?: ");
@@ -17,29 +16,39 @@ public class QuickSort2 {
 		
 		int n = (int) Math.pow(2, input);
 		array = new int[n];
-		System.out.println("There are " + n + " entries in the array.");
+		System.out.println("There are " +n+ " entries in the array.");
 		kb.close();
+
+		//Warmup
+		for(int i = 0; i <= 100 ; i++) {
+			System.out.print("");
+		}
 		
-		
-		//generate a list of 2^n unique inputs and shuffle
 		ArrayList<Integer> list = new ArrayList<Integer>();
-        for (int i=0; i<n; i++) 
+        for (int i=0; i<n; i++) {
             list.add(new Integer(i+1));
+        }
         Collections.shuffle(list);
-		
-		//adding unique random numbers into the array
-		for(int i = 0; i < n; i++) 
+        
+		//addding random numbers into an array
+		for(int i = 0; i < n; i++) {
 			array[i] = list.get(i); 
+		}
+	
+		System.out.println("Unsorted: " +Arrays.toString(array));
 		
-		System.out.println("Unsorted: " + Arrays.toString(array));
-		quickSort(0, array.length);
+		long start = System.nanoTime();
+		quickSort2(0, array.length);
+		long timeInNano = System.nanoTime() - start;
+		
 		System.out.println("Sorted: " + Arrays.toString(array));
+		System.out.println("Time spent in nanoseconds: " + timeInNano);
 		
 	}
-	public static void quickSort(int low, int high) {
+	public static void quickSort2(int low, int high) {
 		//System.out.println("QuickSort");
 		int pivotpoint = 0;
-		System.out.println("High:" + high +" Low: " + low);
+		//System.out.println("High:" + high +" Low: " + low);
 		if(high > low) {
 			
 			int size = high - low;
@@ -48,14 +57,14 @@ public class QuickSort2 {
 			}
 			else {
 			pivotpoint = partition(low, high, pivotpoint);
-			quickSort(low, pivotpoint);
-			quickSort(pivotpoint + 1, high);
+			quickSort2(low, pivotpoint);
+			quickSort2(pivotpoint + 1, high);
 			}
 			
 		}
 	}
 	public static void insertionSort(int low, int high) {
-		System.out.println("Insertion boys");
+		//System.out.println("Insertion");
 		
 		//insertion sort
 		for(int i = low + 1; i < high; i++) {
@@ -70,7 +79,7 @@ public class QuickSort2 {
 		//System.out.println(Arrays.toString(array));
 	}
 	public static int partition(int low, int high, int pivotpoint) {
-		System.out.println("Partition");
+		//System.out.println("Partition");
 		 int i, j, pivotitem;
 		 
 		 pivotitem = array[low];  // first item for pivot
@@ -92,8 +101,8 @@ public class QuickSort2 {
 	        pivotpoint = j;
 	      //exchange S[low] and S[pivotpoint]
 	        int temp = array[low];
-			array[low] = array[j];
-			array[j] = temp;	
+			array[low] = array[pivotpoint];
+			array[pivotpoint] = temp;	
 	 
 	        return pivotpoint; 
 	}
