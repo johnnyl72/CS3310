@@ -9,6 +9,7 @@ import java.util.Scanner;
 public class QuickSort3 {
 	//Made "array" a class variable to follow along the pseudo of have not having it as a parameter.
 	private static int[] array;
+	private static Random rand = new Random();
 	public static void main(String args[]) {
 		
 		System.out.print("How many 2^n entries would you like (0 < n <= 16)?: ");
@@ -24,19 +25,26 @@ public class QuickSort3 {
 		for(int i = 0; i <= 100 ; i++) {
 			System.out.print("");
 		}
-		
+		//For adding unique random numbers
+		//*
 		ArrayList<Integer> list = new ArrayList<Integer>();
         for (int i=0; i<n; i++) {
             list.add(new Integer(i+1));
         }
         Collections.shuffle(list);
         
-		//addding random numbers into an array
+		//adding random numbers into an array
 		for(int i = 0; i < n; i++) {
 			array[i] = list.get(i); 
 		}
-	
-		System.out.println("Unsorted: " +Arrays.toString(array));
+		//*/
+		/*
+		//For adding sorted numbers
+		for(int i = 0; i < n; i++) {
+			array[i] = i+1;
+		}
+		*/
+		System.out.println("Original: " +Arrays.toString(array));
 		
 		long start = System.nanoTime();
 		quickSort3(0, array.length);
@@ -48,36 +56,31 @@ public class QuickSort3 {
 	}
 	public static void quickSort3(int low, int high) {
 	
-		int pivotpoint = 0;
 		
-		Random rand = new Random();
+		int pivotpoint = 0;
 		if(high > low) {
-
 			int size = high-low;
-			int random = rand.nextInt(high);
+
 			if(size > 16) {
-			
+				int random = rand.nextInt(high);
 				pivotpoint = partition(random, high, pivotpoint);
 				
 			}
 			
-			else 		
+			else	 		
 			pivotpoint = partition(low, high, pivotpoint);
-			
+			pivotpoint = partition(low, high, pivotpoint);
 			quickSort3(low, pivotpoint);
 			quickSort3(pivotpoint+1, high);
-			
 		}
 	}
-	
 	public static int partition(int low, int high, int pivotpoint) {
 		 
 		 int i, j, pivotitem;
-		
+		 
 		 pivotitem = array[low];  // first item for pivot
 	     j = low;				  // j tracks where to place pivot
-		 
-	     //System.out.println(pivotitem); Used as breakpoints to check if random pivots worked
+	  
 	        for (i = low; i < high; i++) { 	 
 	            if (array[i] < pivotitem) 
 	            { 		
@@ -89,12 +92,13 @@ public class QuickSort3 {
 	        		array[j] = temp;	
 	        	
 	            }
-	        } 	   
+	        } 	
+	        
 	        pivotpoint = j;
 	      //exchange S[low] and S[pivotpoint]
 	        int temp = array[low];
-			array[low] = array[j];
-			array[j] = temp;	
+			array[low] = array[pivotpoint];
+			array[pivotpoint] = temp;	
 	  
 	        return pivotpoint; 
 	}
