@@ -27,7 +27,7 @@ public class QuickSort3 {
 			System.out.print("");
 		}
 		//For adding unique random numbers
-		//*
+		/*
 		ArrayList<Integer> list = new ArrayList<Integer>();
         for (int i=0; i<n; i++) {
             list.add(new Integer(i+1));
@@ -38,13 +38,13 @@ public class QuickSort3 {
 		for(int i = 0; i < n; i++) {
 			array[i] = list.get(i); 
 		}
-		//*/
-		/*
+		*/
+		///*
 		//For adding sorted numbers
 		for(int i = 0; i < n; i++) {
 			array[i] = i+1;
 		}
-		*/
+		//*/
 		System.out.println("Original: " +Arrays.toString(array));
 		
 		long start = System.nanoTime();
