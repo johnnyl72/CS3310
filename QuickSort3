@@ -20,7 +20,7 @@ public class QuickSort3 {
 		System.out.println("There are " + n + " entries in the array.");
 		kb.close();
 		
-		
+		///*
 		//generate a list of 2^n unique inputs and shuffle
 		ArrayList<Integer> list = new ArrayList<Integer>();
         for (int i=0; i<n; i++) 
@@ -29,8 +29,13 @@ public class QuickSort3 {
 		
 		//adding unique random numbers into the array
 		for(int i = 0; i < n; i++) 
-			array[i] = list.get(i); 
-		
+			array[i] = list.get(i);
+		//*/
+		/* creates a sorted array
+		for(int k = 0; k < n; k++) {
+			array[k] = k+1;
+		}
+		*/
 		System.out.println("Unsorted: " + Arrays.toString(array));
 		quickSort(0, array.length);
 		System.out.println("Sorted: " + Arrays.toString(array));
@@ -42,27 +47,33 @@ public class QuickSort3 {
 		
 		Random rand = new Random();
 		if(high > low) {
-			
-			int size = high - low;
+
+			int size = high-low;
+			int random = rand.nextInt(high);
 			
 			if(size > 16) {
-				int x = rand.nextInt(low+high);
-				pivotpoint = x;
+				
+				pivotpoint = partition(random, high, pivotpoint);
 				
 			}
 			
+			else 		
 			pivotpoint = partition(low, high, pivotpoint);
+			
 			quickSort(low, pivotpoint);
 			quickSort(pivotpoint+1, high);
+			
 		}
 	}
+	
 	public static int partition(int low, int high, int pivotpoint) {
 		 
 		 int i, j, pivotitem;
-		 
+		
 		 pivotitem = array[low];  // first item for pivot
 	     j = low;				  // j tracks where to place pivot
-	  
+		 
+	     //System.out.println(pivotitem); Used as breakpoints to check if random pivots worked
 	        for (i = low; i < high; i++) { 	 
 	            if (array[i] < pivotitem) 
 	            { 		
@@ -74,8 +85,7 @@ public class QuickSort3 {
 	        		array[j] = temp;	
 	        	
 	            }
-	        } 	
-	        
+	        } 	   
 	        pivotpoint = j;
 	      //exchange S[low] and S[pivotpoint]
 	        int temp = array[low];
