@@ -72,7 +72,6 @@ public class QuickSort2 {
 		}
 	}
 	public static void insertionSort(int low, int high) {
-		//System.out.println("Insertion");
 		
 		//insertion sort
 		for(int i = low + 1; i < high; i++) {
@@ -84,7 +83,7 @@ public class QuickSort2 {
 			}
 			array [j + 1] = target;
 		}
-		//System.out.println(Arrays.toString(array));
+
 	}
 	public static int partition(int low, int high, int pivotpoint) {
 		//System.out.println("Partition");
