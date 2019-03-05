@@ -20,25 +20,33 @@ public class MergeSort {
 		for(int i = 0; i <= 100 ; i++) {
 			System.out.print("");
 		}
-		
+		//For adding unique random numbers
+		///*
 		ArrayList<Integer> list = new ArrayList<Integer>();
         for (int i=0; i<n; i++) {
             list.add(new Integer(i+1));
         }
         Collections.shuffle(list);
         
-		//addding random numbers into an array
+		//adding random numbers into an array
 		for(int i = 0; i < n; i++) {
 			array[i] = list.get(i); 
 		}
-	
-		System.out.println("Unsorted: " +Arrays.toString(array));		
+		//*/
+		/*
+		//For adding sorted numbers
+		for(int i = 0; i < n; i++) {
+			array[i] = i+1;
+		}
+		*/
+		System.out.println("Original: " +Arrays.toString(array));
+		
 		long start = System.nanoTime();
-		mergeSort(0, array);
+		mergeSort(n, array);
 		long timeInNano = System.nanoTime() - start;
 		
 		System.out.println("Sorted: " + Arrays.toString(array));
-		System.out.println("Time spent in nanoseconds: " + timeInNano);;
+		System.out.println("Time spent in nanoseconds: " + timeInNano);
 		
 	}//end main
 	
@@ -67,7 +75,7 @@ public class MergeSort {
 	public static void merge(int uLen, int vLen, int U[], int V[], int S[]) {
 
 		int i = 0, j = 0, k = 0;
-		while((i < uLen) && (j < vLen)) { //line runs until one subarray finishes adding to S
+		while((i < uLen) && (j < vLen)) { 
 			if(U[i] <= V[j]) {
 				S[k] = U[i];
 				i++;
@@ -80,8 +88,8 @@ public class MergeSort {
 			
 		}//end while
 
-		System.arraycopy(U, i, S, k, uLen-i); //uLen - i = how many sorted left to copy over
-		System.arraycopy(V, j, S, k, vLen-j); //vLen - j = how many sorted left to copy over
+		System.arraycopy(U, i, S, k, uLen-i);
+		System.arraycopy(V, j, S, k, vLen-j);
 	
 	}//end merge 
 
