@@ -10,6 +10,7 @@ public class QuickSort3 {
 	//Made "array" a class variable to follow along the pseudo of have not having it as a parameter.
 	private static int[] array;
 	private static Random rand = new Random();
+	private static int pivotpoint;
 	public static void main(String args[]) {
 		
 		System.out.print("How many 2^n entries would you like (0 < n <= 16)?: ");
@@ -57,7 +58,7 @@ public class QuickSort3 {
 	public static void quickSort3(int low, int high) {
 	
 		
-		int pivotpoint = 0;
+		//int pivotpoint = 0;
 		if(high > low) {
 			int size = high-low;
 
