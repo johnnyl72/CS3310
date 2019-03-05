@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class QuickSort1 {
 	//Made "array" a class variable to follow along the pseudo of have not having it as a parameter.
 	private static int[] array;
+	private static int pivotpoint;
 	public static void main(String args[]) {
 		
 		System.out.print("How many 2^n entries would you like (0 < n <= 16)?: ");
@@ -23,19 +24,26 @@ public class QuickSort1 {
 		for(int i = 0; i <= 100 ; i++) {
 			System.out.print("");
 		}
-		
+		//For adding unique random numbers
+		///*
 		ArrayList<Integer> list = new ArrayList<Integer>();
         for (int i=0; i<n; i++) {
             list.add(new Integer(i+1));
         }
         Collections.shuffle(list);
         
-		//addding random numbers into an array
+		//adding random numbers into an array
 		for(int i = 0; i < n; i++) {
 			array[i] = list.get(i); 
 		}
-	
-		System.out.println("Unsorted: " +Arrays.toString(array));		
+		//*/
+		/*
+		//For adding sorted numbers
+		for(int i = 0; i < n; i++) {
+			array[i] = i+1;
+		}
+		*/
+		System.out.println("Original: " +Arrays.toString(array));
 		
 		long start = System.nanoTime();
 		quickSort(0, array.length);
@@ -47,7 +55,7 @@ public class QuickSort1 {
 	}
 	public static void quickSort(int low, int high) {
 	
-		int pivotpoint = 0;
+		//int pivotpoint = 0;
 		if(high > low) {
 
 			pivotpoint = partition(low, high, pivotpoint);
