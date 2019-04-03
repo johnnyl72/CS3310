@@ -1,0 +1,83 @@
+package FloydEC;
+
+public class Floyd {
+	
+	//public static final int INF = 99; 	//infinity indicate no connection
+	public static final int n = 5;			//n is the # of edges
+	
+	public static void main(String[] args) {
+		// 5 x 5 GRAPH
+		int[][] W = {	{0, 1, 99, 1, 5},
+						{9, 0, 3, 2, 99},
+						{99, 99, 0, 4, 99},
+						{99, 99, 2, 0, 3},
+						{3, 99, 99, 99, 0}
+					};
+	
+	floyd(n,W);
+	}//end main
+	
+	public static void floyd(int n, int W[][]) {
+		
+		//D = W
+		int D[][] = new int[n][n];
+		D = W.clone();
+		
+		//Initialize P array
+		int P[][] = new int[n][n];
+		for(int i = 0; i < n; i++ ) {
+			for(int j = 0; j < n; j++) {
+				P[i][j] = 0;
+			}
+		}
+		
+		
+		//K LOOP FOR INTERMEDIARIES
+		for(int k = 0; k < n; k++) {
+			//I LOOP FOR ROW
+			for(int i = 0; i < n; i++) {
+				//J LOOP FOR COLUMN
+				for(int j = 0; j < n; j++) { 
+					//D[i][j] = min(D[i][j], D[i][k] + D[k][j])
+					if(D[i][j] > D[i][k] + D[k][j]  ) {
+						P[i][j] = k;
+						D[i][j] = D[i][k] + D[k][j];
+					}
+				}
+			}
+		}
+		
+	printD(D);
+	printP(P);
+	}//end of floyd
+	public static void printD(int D[][]) {
+		
+		System.out.println("Final D Array");
+		
+		for(int i = 0; i < n; i++) {
+			for(int j = 0; j < n; j++) {
+				if(D[i][j] == 99)
+					System.out.print("INF ");
+				else
+					System.out.print(D[i][j]+ "  ");
+			}
+			System.out.println(); // Next Row
+		}
+
+	}//end printD
+	public static void printP(int P[][]) {
+			
+			System.out.println("Final P Array");
+			
+			for(int i = 0; i < n; i++) {
+				for(int j = 0; j < n; j++) {
+					
+						System.out.print(P[i][j]+ "  ");
+				}
+				System.out.println(); // Next Row
+			}
+	
+		}//end printD
+	
+
+}//end Floyd
