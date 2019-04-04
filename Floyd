@@ -1,12 +1,15 @@
 package FloydEC;
 
+import java.util.*;
 public class Floyd {
-	
-	//public static final int INF = 99; 	//infinity indicate no connection
+
 	public static final int n = 5;			//n is the # of edges
-	
+	public static int P[][] = new int[n][n];
+	public static int D[][] = new int[n][n];
+	public static int weight = 0;
 	public static void main(String[] args) {
 		// 5 x 5 GRAPH
+		
 		int[][] W = {	{0, 1, 99, 1, 5},
 						{9, 0, 3, 2, 99},
 						{99, 99, 0, 4, 99},
@@ -14,16 +17,7 @@ public class Floyd {
 						{3, 99, 99, 99, 0}
 					};
 	
-	floyd(n,W);
-	}//end main
-	
-	public static void floyd(int n, int W[][]) {
-		
-		//D = W
-		int D[][] = new int[n][n];
-		D = W.clone();
-		
-		//Initialize P array
+	//Initialize P array
 		int P[][] = new int[n][n];
 		for(int i = 0; i < n; i++ ) {
 			for(int j = 0; j < n; j++) {
@@ -31,7 +25,29 @@ public class Floyd {
 			}
 		}
 		
+	floyd(n,W,P);
+	
+	Scanner kb = new Scanner(System.in);
+	
+	System.out.print("Please enter first vertex: ");
+	int vertex1 = kb.nextInt();
+	System.out.print("Please enter second vertex: ");
+	int vertex2 = kb.nextInt();
+	
+	System.out.print("The shortest path is: ");
+	System.out.print("v"+vertex1+",");
+	getPath(vertex1, vertex2);	//Display intermediaries
+	System.out.println("v"+vertex2);
+	System.out.print("The weight is: " + D[vertex1-1][vertex2-1]);
+	kb.close();
+	}//end main
+	
+	public static void floyd(int n, int W[][], int P[][]) {
 		
+		//D = W
+		D = W.clone();
+		
+
 		//K LOOP FOR INTERMEDIARIES
 		for(int k = 0; k < n; k++) {
 			//I LOOP FOR ROW
@@ -40,7 +56,7 @@ public class Floyd {
 				for(int j = 0; j < n; j++) { 
 					//D[i][j] = min(D[i][j], D[i][k] + D[k][j])
 					if(D[i][j] > D[i][k] + D[k][j]  ) {
-						P[i][j] = k;
+						P[i][j] = (k+1); //Offset as pseudo starts index 1
 						D[i][j] = D[i][k] + D[k][j];
 					}
 				}
@@ -50,6 +66,7 @@ public class Floyd {
 	printD(D);
 	printP(P);
 	}//end of floyd
+	
 	public static void printD(int D[][]) {
 		
 		System.out.println("Final D Array");
@@ -71,13 +88,24 @@ public class Floyd {
 			
 			for(int i = 0; i < n; i++) {
 				for(int j = 0; j < n; j++) {
-					
 						System.out.print(P[i][j]+ "  ");
 				}
 				System.out.println(); // Next Row
 			}
-	
-		}//end printD
-	
+	}//end printD
+	public static void getPath(int q, int r) {
+		
+		if(q != 0)
+		q--;
+		if(r != 0)
+		r--;
+		
+		if (P[q][r] != 0) {
+			getPath(q, P[q][r]);
+			System.out.print("v"+P[q][r]+",");
+			getPath(q, P[q][r]);
+			
+		}
+	}
 
 }//end Floyd
