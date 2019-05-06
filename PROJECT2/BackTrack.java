@@ -9,12 +9,12 @@ import java.util.*;
 
 public class BackTrack {
 
-	public static double maxProfit;	// Greated profit
-	public static String[] bestSet;		// Best Path
-	public static double W;					// Max capacity
-	public static ArrayList<Item> items; 	// Stored p & w array into this one class,
-											// Contains method to sort nonincreasing by p/w ratio
-	public static String[] include = new String[4];	//Declare size for now
+	public static double maxProfit;						// Greatest profit
+	public static String[] bestSet;						// Best Path
+	public static double W;								// Max capacity of the bag
+	public static ArrayList<Item> items; 				// Stored p & w array into this one class,
+														// Contains method to sort nonincreasing by p/w ratio
+	public static String[] include;
 	
 	public static void main(String[] args) {
 		
@@ -25,20 +25,19 @@ public class BackTrack {
 		int totalTake = kb.nextInt();
 		items = new ArrayList<Item>(totalTake);
 		
+		bestSet = new String[totalTake];
+		include = new String[totalTake];
+		
 		//PROMPT MAX WEIGHT OF THE BAG
 		System.out.println("What is the max weight of the bag: ");
 		W = kb.nextInt();
-		
-		//Intialize
-		items.add(new Item(0, 0, 0));
-		
 		//ADD ITEMS TO ARRAYLIST
-		for(int i = 1; i < totalTake; i++) {
-			System.out.println("What is the weight of item " + (i+1));
-			int weight = kb.nextInt();
-			System.out.println("What is the profit of item " + (i+1));
+		for(int i = 1; i <= totalTake; i++) {
+			System.out.println("What is the profit of item " + (i));
 			int profit = kb.nextInt();
-			items.add(new Item(i, weight, profit));
+			System.out.println("What is the weight of item " + (i));
+			int weight = kb.nextInt();
+			items.add(new Item(i, profit, weight));
 		}
 		
 		//DISPLAY ARRAYLIST (Sort by ratio in nonincreasing order)
@@ -49,37 +48,31 @@ public class BackTrack {
 			System.out.println(item.toString());
 		}
 		
-		//Intialize maxprofit to $0 and bestSet to empty, aka visit (0,0)
-		maxProfit = 0.0;
-		bestSet = new String[totalTake];
-		
-		knapsack( 0, items.get(0).getProfit(), items.get(0).getProfit());
+		knapsack(0, items.get(0).getProfit(), items.get(0).getWeight());
 		
 		// Print out max profit and which items are taken & not, how many nodes were checked
 		System.out.println(maxProfit);
-		for( int i = 0; i < bestSet.length; i++)
-		{
-		    String element = bestSet[i];
-		    System.out.println( element );    
+		
+		for(int i = 0; i < bestSet.length; i++) {
+			System.out.println(bestSet[i]);
 		}
 		kb.close();
 	}//end main
 	
 	public static void knapsack(int i, double profit, double weight) {
 	
-		
 		if( weight <= W && profit > maxProfit) {
-			// this set is best for far
+			// this set is best so far
 			maxProfit = profit;
-			int numBest = i;
 			bestSet = include;
+			int numBest = i;
 		}
 		
 		if(promising(i, profit, weight)) {
-			include[i + 1] = "yes";
-			knapsack(i +1, (profit + items.get(i+1).getProfit()) , ( weight + items.get(i+1).getWeight()));
-			include[i + 1] = "no";
-			knapsack(i + 1, profit, weight);
+			include[i+1] = "yes";
+			knapsack(i+1,(profit+items.get(i+1).getProfit()),(weight+items.get(i+1).getWeight()));
+			include[i+1] = "no";
+			knapsack(i+1,profit,weight);
 		}
 		
 	}
@@ -97,17 +90,16 @@ public class BackTrack {
 			j = i + 1;
 			bound = profit;
 			totweight = weight;
-			while( (j <= (items.size() -1 )) && (totweight + items.get(j).getWeight() <= W) ) {
+			while((j <= (items.size() -1)) && (totweight + items.get(j).getWeight() <= W)) {
 				totweight = (totweight + items.get(j).getWeight());
 				bound = bound + items.get(j).getProfit();
 				j++;
 			}
 			k = j;
-			if (k <= (items.size() -1 ))
-					bound = bound + (W - totweight ) * items.get(k).getRatio();;
+			if (k <= (items.size() - 1))
+					bound = bound + (W-totweight) * (items.get(k).getRatio());;
 			
-		boolean result = bound > maxProfit;
-		return result;
+		return bound > maxProfit;
 	}
 	
 }
