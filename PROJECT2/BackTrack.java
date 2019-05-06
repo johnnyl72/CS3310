@@ -97,13 +97,13 @@ public class BackTrack {
 			j = i + 1;
 			bound = profit;
 			totweight = weight;
-			while( (j < (items.size())) && (totweight + items.get(j).getWeight() <= W) ) {
+			while( (j <= (items.size() -1 )) && (totweight + items.get(j).getWeight() <= W) ) {
 				totweight = (totweight + items.get(j).getWeight());
 				bound = bound + items.get(j).getProfit();
 				j++;
 			}
 			k = j;
-			if (k < (items.size()))
+			if (k <= (items.size() -1 ))
 					bound = bound + (W - totweight ) * items.get(k).getRatio();;
 			
 		boolean result = bound > maxProfit;
