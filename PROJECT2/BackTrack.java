@@ -17,6 +17,7 @@ public class BackTrack {
 	public static String[] include;
 	public static int nodesChecked;
 	public static int bestYes = 0;
+	
 	public static void main(String[] args) {
 		
 		Scanner kb = new Scanner(System.in);
@@ -52,7 +53,8 @@ public class BackTrack {
 		// Begin algorithm
 		nodesChecked = 0; 
 		knapsack(0, items.get(0).getProfit(), items.get(0).getWeight());
-		bestSet[0] = "Node one (dummy node): Yes";
+		bestSet[0] = "Node 1 (dummy node): Yes";
+		
 		// Print out max profit and which items are taken & not, how many nodes were checked
 		System.out.println("Max Profit: " + maxProfit);
 		System.out.println("Nodes checked: " + nodesChecked);
@@ -65,21 +67,22 @@ public class BackTrack {
 	public static void knapsack(int i, double profit, double weight) {
 		
 		// If profit > maxProfit and weight <= W, we update maxProfit and bestSet. 
-		if( weight <= W && profit > maxProfit) {
+		if( (weight <= W) && (profit > maxProfit)) {
 			
 			// this set is best so far
 			maxProfit = profit;
 			//Must find way to stop at the bestSet and store it as the best combination
 			int countYes = 0;
-			for(int j = 0; j < bestSet.length; j++) {
-				if(bestSet[j] == "yes")
+			for(int j = 0; j < include.length; j++) {
+				if(include[j] == "Yes")
 					countYes++;
 			}
 			if(countYes > bestYes) {
 				bestYes = countYes;
-				bestSet[i] = include[i];	//bestSet will eventually be all 0 when its done
+				bestSet[i] = "Node " + (i+1) + ": Yes";
 			}
-			//int numBest = i;		
+			else
+				bestSet[i] = "Node " + (i+1) + ": No";
 		}
 		
 		if(promising(i, profit, weight)) {
@@ -108,14 +111,14 @@ public class BackTrack {
 			bound = profit;
 			totweight = weight;
 			//Calculate totweight and part of the bound needed for the next part
-			while((j <= (items.size() -1)) && (totweight + items.get(j).getWeight() <= W)) {
+			while((j <= (items.size()-1)) && (totweight + items.get(j).getWeight() <= W)) {
 				totweight = (totweight + items.get(j).getWeight());
 				bound = bound + items.get(j).getProfit();
 				j++;
 			}
 			//Calculate true bound
 			k = j;
-			if (k <= (items.size() -1)) {
+			if (k <= (items.size()-1)) {
 					bound = bound + (W-totweight) * (items.get(k).getRatio());;
 			}
 		// A.K.A. if bound <= maxProfit, we can backtrack	
