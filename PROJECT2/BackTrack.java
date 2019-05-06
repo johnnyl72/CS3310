@@ -16,6 +16,7 @@ public class BackTrack {
 														// Contains method to sort nonincreasing by p/w ratio
 	public static String[] include;
 	public static int nodesChecked;
+	public static int bestYes = 0;
 	public static void main(String[] args) {
 		
 		Scanner kb = new Scanner(System.in);
@@ -26,7 +27,7 @@ public class BackTrack {
 		items = new ArrayList<Item>(totalTake);
 		
 		bestSet = new String[totalTake];
-		//include = new String[totalTake];
+		include = new String[totalTake];
 		
 		//PROMPT MAX WEIGHT OF THE BAG
 		System.out.println("What is the max weight of the bag: ");
@@ -49,9 +50,9 @@ public class BackTrack {
 		}
 		
 		// Begin algorithm
-		nodesChecked = 1; // Account for dummy node
+		nodesChecked = 0; 
 		knapsack(0, items.get(0).getProfit(), items.get(0).getWeight());
-		
+		bestSet[0] = "Node one (dummy node): Yes";
 		// Print out max profit and which items are taken & not, how many nodes were checked
 		System.out.println("Max Profit: " + maxProfit);
 		System.out.println("Nodes checked: " + nodesChecked);
@@ -62,26 +63,35 @@ public class BackTrack {
 	}//end main
 	
 	public static void knapsack(int i, double profit, double weight) {
-		++nodesChecked;
+		
 		// If profit > maxProfit and weight <= W, we update maxProfit and bestSet. 
 		if( weight <= W && profit > maxProfit) {
-
+			
 			// this set is best so far
 			maxProfit = profit;
-			bestSet[i] = include[i];
-			int numBest = i;
+			//Must find way to stop at the bestSet and store it as the best combination
+			int countYes = 0;
+			for(int j = 0; j < bestSet.length; j++) {
+				if(bestSet[j] == "yes")
+					countYes++;
+			}
+			if(countYes > bestYes) {
+				bestYes = countYes;
+				bestSet[i] = include[i];	//bestSet will eventually be all 0 when its done
+			}
+			//int numBest = i;		
 		}
 		
 		if(promising(i, profit, weight)) {
-			include[i+1] = "yes";
+			include[i+1] = "Yes";
 			knapsack(i+1,(profit+items.get(i+1).getProfit()),(weight+items.get(i+1).getWeight()));
-			include[i+1] = "no";
+			include[i+1] = "No";
 			knapsack(i+1,profit,weight);
 		}
 		
 	}
 	public static boolean promising(int i, double profit, double weight) {
-		
+		++nodesChecked;
 		int j; 
 		int k; 
 		double totweight;
@@ -89,9 +99,11 @@ public class BackTrack {
 		
 		//A check for backtrack here
 		if(weight >= W) {
+			++nodesChecked;
 			return false;
 		}
 		else
+			
 			j = i + 1;
 			bound = profit;
 			totweight = weight;
@@ -103,7 +115,7 @@ public class BackTrack {
 			}
 			//Calculate true bound
 			k = j;
-			if (k <= (items.size() - 1)) {
+			if (k <= (items.size() -1)) {
 					bound = bound + (W-totweight) * (items.get(k).getRatio());;
 			}
 		// A.K.A. if bound <= maxProfit, we can backtrack	
