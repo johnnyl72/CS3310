@@ -65,7 +65,8 @@ public class BackTrack {
 	}//end main
 	
 	public static void knapsack(int i, double profit, double weight) {
-		
+		if(bestSet[i] == null)
+		bestSet[i] = "Node " + (i+1) + ": No";
 		// If profit > maxProfit and weight <= W, we update maxProfit and bestSet. 
 		if( (weight <= W) && (profit > maxProfit)) {
 			
@@ -73,6 +74,8 @@ public class BackTrack {
 			maxProfit = profit;
 			//Must find way to stop at the bestSet and store it as the best combination
 			int countYes = 0;
+			
+			
 			for(int j = 0; j < include.length; j++) {
 				if(include[j] == "Yes")
 					countYes++;
@@ -81,8 +84,7 @@ public class BackTrack {
 				bestYes = countYes;
 				bestSet[i] = "Node " + (i+1) + ": Yes";
 			}
-			else
-				bestSet[i] = "Node " + (i+1) + ": No";
+		
 		}
 		
 		if(promising(i, profit, weight)) {
