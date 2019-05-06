@@ -9,11 +9,12 @@ import java.util.*;
 
 public class BackTrack {
 
-	public static double maxProfit = 0.0;	// Greated profit
-	public static boolean[] bestSet;		// Best Path
+	public static double maxProfit;	// Greated profit
+	public static String[] bestSet;		// Best Path
 	public static double W;					// Max capacity
 	public static ArrayList<Item> items; 	// Stored p & w array into this one class,
-											// Contains method to sort by p/w
+											// Contains method to sort nonincreasing by p/w ratio
+	public static String[] include = new String[3];	//Declare size 5 for now
 	
 	public static void main(String[] args) {
 		
@@ -27,7 +28,6 @@ public class BackTrack {
 		//PROMPT MAX WEIGHT OF THE BAG
 		System.out.println("What is the max weight of the bag: ");
 		W = kb.nextInt();
-		kb.nextLine();
 				
 		//ADD ITEMS TO ARRAYLIST
 		for(int i = 0; i < totalTake; i++) {
@@ -39,42 +39,53 @@ public class BackTrack {
 		}
 		
 		//DISPLAY ARRAYLIST (Sort by ratio in nonincreasing order)
-		Collections.sort(items);
-		Collections.reverse(items);
+		Collections.sort(items);	// Low to High
+		Collections.reverse(items); // High to Low
 		System.out.println("-----------------Current Items-----------------");
 		for(Item item: items) {
 			System.out.println(item.toString());
 		}
 		
-		knapsack(0, items.get(0).getProfit(),items.get(0).getWeight());
+		//Intialize maxprofit to $0 and bestSet to empty
+		maxProfit = 0.0;
+		bestSet = new String[totalTake];
 		
+		knapsack(0,0,0);
+		// Print out max profit and which items are taken & not, how many nodes were checked
+		System.out.println(maxProfit);
+		for( int i = 0; i < bestSet.length; i++)
+		{
+		    String element = bestSet[i];
+		    System.out.println( element );    
+		}
 		kb.close();
 	}//end main
 	
 	public static void knapsack(int i, double profit, double weight) {
-		int numBest;
-		boolean[] include = new boolean[5];	//Declare size 5 for now
+	
 		
 		if( weight <= W && profit > maxProfit) {
 			// this set is best for far
 			maxProfit = profit;
-			numBest = i;
+			int numBest = i;
 			bestSet = include;
 		}
 		
 		if(promising(i, profit, weight)) {
-			include[i + 1] = true;
+			include[i + 1] = "yes";
 			double prof = profit + items.get(i+1).getProfit();
 			double weigh = weight + items.get(i+1).getWeight();
 			knapsack(i +1, prof, weigh);
-			include[i + 1] = false;
+			include[i + 1] = "no";
 			knapsack(i + 1, profit, weight);
 		}
 		
 	}
 	public static boolean promising(int i, double profit, double weight) {
 		
-		int j, k = 0, totweight;
+		int j; 
+		int k = 0; 
+		double totweight;
 		double bound;
 		
 		if(weight >= W) {
@@ -83,15 +94,15 @@ public class BackTrack {
 		else
 			j = i + 1;
 			bound = profit;
-			totweight = (int) weight;
-			while( (j <= (k-1)) && (totweight + items.get(j).getWeight() <= W) ) {
+			totweight = weight;
+			while( (j <= (items.size()-1)) && (totweight + items.get(j).getWeight() <= W) ) {
 				totweight = (int) (totweight + items.get(j).getWeight());
 				bound = bound + + items.get(j).getProfit();
 				j++;
 			}
 			k = j;
-			if (k <= (k-1))
-					bound = bound + (W -totweight ) * items.get(k).getRatio();;
+			if (k <= (items.size()-1))
+					bound = bound + (W - totweight ) * items.get(k).getRatio();;
 			
 		
 		
