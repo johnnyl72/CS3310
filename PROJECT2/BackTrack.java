@@ -15,9 +15,8 @@ public class BackTrack {
 	public static ArrayList<Item> items; 				// Stored p & w array into this one class,
 														// Contains method to sort nonincreasing by p/w ratio
 	public static String[] include;
-	public static int nodesChecked;
-	public static int bestYes = 0;
-	
+	public static int nodesChecked = 0;
+	public static int numBest = -1;
 	public static void main(String[] args) {
 		
 		Scanner kb = new Scanner(System.in);
@@ -39,7 +38,7 @@ public class BackTrack {
 			int profit = kb.nextInt();
 			System.out.println("What is the weight of item " + (i));
 			int weight = kb.nextInt();
-			items.add(new Item(i, profit, weight));
+			items.add(new Item(profit, weight));
 		}
 		
 		//DISPLAY ARRAYLIST (Sort by ratio in nonincreasing order)
@@ -51,39 +50,31 @@ public class BackTrack {
 		}
 		
 		// Begin algorithm
-		nodesChecked = 0; 
 		knapsack(0, items.get(0).getProfit(), items.get(0).getWeight());
-		bestSet[0] = "Node 1 (dummy node): Yes";
 		
 		// Print out max profit and which items are taken & not, how many nodes were checked
 		System.out.println("Max Profit: " + maxProfit);
 		System.out.println("Nodes checked: " + nodesChecked);
-		for(int i = 0; i < bestSet.length; i++) {
-			System.out.println(bestSet[i]);
-		}
+		
 		kb.close();
 	}//end main
 	
 	public static void knapsack(int i, double profit, double weight) {
-		if(bestSet[i] == null)
-		bestSet[i] = "Node " + (i+1) + ": No";
+		
 		// If profit > maxProfit and weight <= W, we update maxProfit and bestSet. 
 		if( (weight <= W) && (profit > maxProfit)) {
 			
-			// this set is best so far
-			maxProfit = profit;
-			//Must find way to stop at the bestSet and store it as the best combination
-			int countYes = 0;
-			
-			
-			for(int j = 0; j < include.length; j++) {
-				if(include[j] == "Yes")
-					countYes++;
-			}
-			if(countYes > bestYes) {
-				bestYes = countYes;
-				bestSet[i] = "Node " + (i+1) + ": Yes";
-			}
+		// this set is best so far
+		maxProfit = profit;
+		if(numBest < i) {
+		numBest = i;
+		System.out.println("Take Node: " + (numBest));
+		}
+		else {
+		System.out.println("Not node: " + (i));
+		}
+		
+		bestSet = include;
 		
 		}
 		
@@ -96,6 +87,7 @@ public class BackTrack {
 		
 	}
 	public static boolean promising(int i, double profit, double weight) {
+		//A check for promising
 		++nodesChecked;
 		int j; 
 		int k; 
