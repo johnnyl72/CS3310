@@ -1,0 +1,66 @@
+package Project2;
+
+public class Node implements Comparable<Node>{
+	public int level;
+	public double profit;
+	public double weight;
+	public double bound;
+	public double ratio;
+	
+	public Node() {
+		profit = 0;
+		weight = 0;
+		ratio = (Math.round( (profit/weight) * 100.0 ) / 100.0);
+		level = 0;
+		bound = 0;
+	}
+	public Node(double profit, double weight) {
+		this.profit = profit;
+		this.weight = weight;
+		ratio = (Math.round( (profit/weight) * 100.0 ) / 100.0);
+		level = 0;
+		bound = 0;
+	}
+	public int getLevel() {
+		return level;
+	}
+	public double getProfit() {
+		return profit;
+	}
+	public double getWeight() {
+		return weight;
+	}
+	public double getBound() {
+		return bound;
+	}
+	public void setLevel(int level) {
+		this.level = level;
+	}
+	public void setProfit(int profit) {
+		this.profit = profit;
+	}
+	public void setWeight(int weight) {
+		this.weight = weight;
+	}
+	public void setBound(float bound) {
+		this.bound = bound;
+	}
+	
+	public int getRatio() {
+		ratio = (Math.round( (profit/weight) * 100.0 ) / 100.0);;
+		return (int) ratio;
+	}
+	@Override
+	public int compareTo(Node other) {
+		if( this.ratio < other.getRatio())
+			return 1;
+		else if( this.ratio > other.getRatio())
+			return -1;
+		
+		return 0;
+		
+	}
+	public String toString() {
+		return " Weight: " + weight + " Profit: " + profit + " Ratio: " + this.getRatio();
+	}
+}
