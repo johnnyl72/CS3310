@@ -9,7 +9,6 @@ import java.util.*;
 
 public class BranchandBound {
 
-	//public static int nodesChecked = 0;
 	public static double W;								// Max weight of bag
 	public static ArrayList<Node> items;
 	public static double maxprofit;
@@ -19,16 +18,22 @@ public class BranchandBound {
 	public static void main(String[] args) {
 		
 		Scanner kb = new Scanner(System.in);
-		items = new ArrayList<Node>(5);	
-		W = 16;
+		System.out.println("How many items to take: ");
+		int totalTake = kb.nextInt();
+		items = new ArrayList<Node>(totalTake);	
+		System.out.println("What is the max weight of the bag: ");
+		W = kb.nextInt();
 		
-		items.add(new Node(0, 0));
-		items.add(new Node(40, 2));
-		items.add(new Node(30, 5));
-		items.add(new Node(50, 10));
-		items.add(new Node(10, 5));
+		for(int i = 1; i <= totalTake; i++) {
+			System.out.println("What is the profit of item " + (i));
+			int profit = kb.nextInt();
+			System.out.println("What is the weight of item " + (i));
+			int weight = kb.nextInt();
+			items.add(new Node(profit, weight));
+		}
 		
-		//Collections.sort(items);
+		Collections.sort(items);
+		items.add(0, new Node(0,0));
 		//DISPLAY ARRAYLIST (Sort by ratio in nonincreasing order)	
 		System.out.println("-----------------Current Items-----------------");
 		for(Node item: items) {
@@ -41,10 +46,12 @@ public class BranchandBound {
 
 		System.out.println("RESULTS");
 		System.out.println("The max profit is " + maxprofit);
+		System.out.println("Total nodes checked is " + nodesChecked) ;
 	}// end main
 	
+	
 	public static void knapsack3(int n, double p, double w) {
-
+		nodesChecked = -1;
 		PriorityQueue<Node> PQ = new PriorityQueue<Node>(); //Initialize
 		
 		Node u = new Node();
@@ -61,7 +68,7 @@ public class BranchandBound {
 		System.out.println("V weight: " + v.getWeight());
 		System.out.println("--");
 		PQ.add(v);				//Insert root to PQ	
-		while(!PQ.isEmpty()) { 
+		while(!PQ.isEmpty()) {
 			v = PQ.poll();	//deque
 			System.out.println("Current PQ: " + PQ.toString());
 		
@@ -72,12 +79,13 @@ public class BranchandBound {
 				u.setProfit(v.getProfit() + items.get(u.getLevel()).getProfit());
 				u.setWeight(v.getWeight() + items.get(u.getLevel()).getWeight());
 				u.setBound(bound(u));
+				nodesChecked++;
 				System.out.println("U bound: " + u.getBound());
 				System.out.println("U profit: " + u.getProfit());
 				System.out.println("U weight: " + u.getWeight());
 				System.out.println("--");
 				if(u.getWeight() <= W && u.getProfit() > maxprofit) {
-					maxprofit = u.getProfit();	//40
+					maxprofit = u.getProfit();	
 				}
 				// Insert u(1,1) to PQ
 				if(u.getBound() > maxprofit) {
@@ -90,6 +98,7 @@ public class BranchandBound {
 				u.setWeight(v.getWeight());
 				u.setProfit(v.getProfit());
 				u.setBound(bound(u));
+				nodesChecked++;
 				System.out.println("U bound: " + u.getBound());
 				System.out.println("U profit: " + u.getProfit());
 				System.out.println("U weight: " + u.getWeight());
@@ -97,7 +106,6 @@ public class BranchandBound {
 				//Is bound promising?
 				if(u.getBound() > maxprofit) {
 					PQ.add(u);
-					//System.out.println("CURRENT PQ QUEUE: " + PQ.toString());
 					
 				}
 				
@@ -111,7 +119,6 @@ public class BranchandBound {
 		int k;
 		double weight;
 		float bound;
-		
 		if(u.getWeight() >= W)
 			return 0;
 		else {
