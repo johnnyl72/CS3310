@@ -9,14 +9,11 @@ import java.util.*;
 
 public class BranchandBound {
 
-	public static int nodesChecked = 0;
+	//public static int nodesChecked = 0;
 	public static double W;								// Max weight of bag
-	public static double maxProfit;					// Greatest profit
-	
 	public static ArrayList<Node> items;
-	public static int counter = 0;
+	//public static int counter = 0;
 	public static double maxprofit;
-
 	public static void main(String[] args) {
 		
 		Scanner kb = new Scanner(System.in);
@@ -28,21 +25,21 @@ public class BranchandBound {
 		items.add(new Node(30, 5));
 		items.add(new Node(50, 10));
 		items.add(new Node(10, 5));
-	
+		Collections.sort(items);
 		//DISPLAY ARRAYLIST (Sort by ratio in nonincreasing order)	
 		System.out.println("-----------------Current Items-----------------");
 		for(Node item: items) {
 			System.out.println(item.toString());
 		}
 	
-		knapsack3(0, items.get(0).getProfit(), items.get(0).getWeight());
+		knapsack3(0, items.get(1).getProfit(), items.get(1).getWeight());
 
 	}// end main
 	public static void knapsack3(int n, double p, double w) {
 
 		PriorityQueue<Node> PQ = new PriorityQueue<Node>(); //Initialize
 		PQ.clear();
-
+		
 		Node u = new Node();
 		Node v = new Node();
 		
@@ -58,10 +55,11 @@ public class BranchandBound {
 		System.out.println("--");
 		PQ.add(v);				//Insert root to PQ	
 		while(!PQ.isEmpty()) { 
-			PQ.remove();	//deque
-			
+			v = PQ.poll();	//deque
+		
 			if(v.getBound() > maxprofit) {
 				//Remove node from front priority and assign it to v, visit left child
+				u = new Node();
 				u.setLevel(v.getLevel() + 1);
 				u.setProfit(v.getProfit() + items.get(u.getLevel()).getProfit());
 				u.setWeight(v.getWeight() + items.get(u.getLevel()).getWeight());
@@ -79,6 +77,7 @@ public class BranchandBound {
 				}
 				
 				//Visit unvisited right child
+				u = new Node();
 				u.setLevel(v.getLevel()+1);;
 				u.setWeight(v.getWeight());
 				u.setProfit(v.getProfit());
