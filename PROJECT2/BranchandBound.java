@@ -13,6 +13,7 @@ public class BranchandBound {
 	public static ArrayList<Node> items;
 	public static double maxprofit;
 	public static int nodesChecked;
+	//public static String[] bestPath;
 	
 	
 	public static void main(String[] args) {
@@ -20,7 +21,8 @@ public class BranchandBound {
 		Scanner kb = new Scanner(System.in);
 		System.out.println("How many items to take: ");
 		int totalTake = kb.nextInt();
-		items = new ArrayList<Node>(totalTake);	
+		items = new ArrayList<Node>(totalTake);
+		//bestPath = new String[totalTake];
 		System.out.println("What is the max weight of the bag: ");
 		W = kb.nextInt();
 		
@@ -46,12 +48,15 @@ public class BranchandBound {
 
 		System.out.println("RESULTS");
 		System.out.println("The max profit is " + maxprofit);
-		System.out.println("Total nodes checked is " + nodesChecked) ;
+		System.out.println("Total nodes checked is " + nodesChecked);
+		
+		kb.close();
 	}// end main
 	
 	
 	public static void knapsack3(int n, double p, double w) {
 		nodesChecked = -1;
+		int loopCounter = 0;
 		PriorityQueue<Node> PQ = new PriorityQueue<Node>(); //Initialize
 		
 		Node u = new Node();
@@ -61,6 +66,7 @@ public class BranchandBound {
 		v.setProfit(0.0);			//Initialize v to the root
 		v.setWeight(0.0);			//Initialize v to the root
 		maxprofit = 0.0;
+		//System.out.println("Take node 0 (dummy node) ");
 		v.setBound(bound(v));		//Compute v bound
 		
 		System.out.println("V bound: " + v.getBound());
@@ -105,8 +111,7 @@ public class BranchandBound {
 				System.out.println("--");
 				//Is bound promising?
 				if(u.getBound() > maxprofit) {
-					PQ.add(u);
-					
+					PQ.add(u);		
 				}
 				
 			}
