@@ -60,7 +60,6 @@ public class BackTrack {
 	}//end main
 	
 	public static void knapsack(int i, double profit, double weight) {
-		
 		// If profit > maxProfit and weight <= W, we update maxProfit and bestSet. 
 		if( (weight <= W) && (profit > maxProfit)) {
 			
@@ -69,9 +68,6 @@ public class BackTrack {
 		if(numBest < i) {
 		numBest = i;
 		System.out.println("Take Node: " + (numBest));
-		}
-		else {
-		System.out.println("Not node: " + (i));
 		}
 		
 		bestSet = include;
