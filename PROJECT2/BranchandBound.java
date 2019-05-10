@@ -56,7 +56,7 @@ public class BranchandBound {
 	
 	public static void knapsack3(int n, double p, double w) {
 		nodesChecked = -1;
-		int loopCounter = 0;
+
 		PriorityQueue<Node> PQ = new PriorityQueue<Node>(); //Initialize
 		
 		Node u = new Node();
